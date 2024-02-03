@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Chart.js</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div>
+        <canvas id="myChart" width="800" height="400"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+       
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], 
+                datasets: [{
+                    label: 'Dynamic Data',
+                    data: [], 
+                    borderColor: 'blue',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var dummyData = [20, 30, 25, 40, 35, 50, 45, 60, 55, 70];
+
+        setInterval(function() {
+            myChart.data.labels.push(''); 
+            var randomIndex = Math.floor(Math.random() * dummyData.length);
+            myChart.data.datasets[0].data.push(dummyData[randomIndex]);
+            if (myChart.data.labels.length > 10) {
+                myChart.data.labels.shift();
+                myChart.data.datasets[0].data.shift();
+            }
+            myChart.update();
+        }, 1000); 
+    </script>
+</body>
+</html>
